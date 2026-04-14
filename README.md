@@ -82,6 +82,7 @@ We compared PathRadX against three radiology-specific foundation models: SAM-Med
 | SAM-Med2D  |   0.709   |      0.797       |       0.742        |
 | MedCLIP    |   0.750   |      0.819       |     **0.763**      |
 | BiomedCLIP |   0.753   |      0.815       |       0.753        |
+
 *Table 1. Performance evaluation based on Accuracy.*
 
 ### F1
@@ -91,6 +92,7 @@ We compared PathRadX against three radiology-specific foundation models: SAM-Med
 | SAM-Med2D  |   0.726   |      0.333       |     **0.852**      |
 | MedCLIP    |   0.696   |      0.488       |       0.848        |
 | BiomedCLIP |   0.700   |      0.417       |       0.851        |
+
 *Table 2. Performance evaluation based on F1*
 
 ### AUC
@@ -100,6 +102,7 @@ We compared PathRadX against three radiology-specific foundation models: SAM-Med
 | SAM-Med2D  |   0.788   |      0.809       |       0.757        |
 | MedCLIP    |   0.844   |      0.834       |     **0.784**      |
 | BiomedCLIP |   0.835   |      0.820       |       0.762        |
+
 *Table 3. Performance evaluation based on AUC*
 
 * Leveraging the UNI model with AB-MIL and channel-manipulation achieved the highest accuracy, F1 score, and AUC scores for the MURA and RSNAP datasets.
@@ -120,6 +123,7 @@ We compared PathRadX against three radiology-specific foundation models: SAM-Med
 |  ✓  |     |    | ✓  |   0.744   |        0.348        |       **0.873**       |
 |     |  ✓  | ✓  |    | **0.777** |      **0.576**      |         0.812         |
 |     |  ✓  |    | ✓  |   0.753   |        0.540        |         0.852         |
+
 *Table 4. A comparison of UNI’s performance on F1 score, using different strategies, single instance learning (SIL), multiple
 instance learning (MIL), channel manipulation (CM), and pseudo-coloring (PC).*
 
