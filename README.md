@@ -1,4 +1,4 @@
-# PathRadX: From Pathology to Radiology
+# PathRadX - "From Pathology to Radiology: Evaluating the Applicability of Pathology Foundation Models."
 
 [![Paper](https://img.shields.io/badge/Paper-Springer-blue.svg)](https://link.springer.com/book/10.1007/978-3-032-07845-2)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -37,16 +37,6 @@ PathRadX addresses the modality gap (e.g., RGB pathology images vs. grayscale ra
   <em><b>Fig. 1: Overview of the proposed PathRadX framework.</b></em>
 </p>
 
----
-
-## 📂 Datasets
-
-We evaluated the PathRadX framework on three diverse radiology datasets:
-* **[MURA](https://stanfordmlgroup.github.io/competitions/mura/):** Musculoskeletal radiographs (40,005 images).
-* **[RSNA (RSNA Pneumonia)](https://www.kaggle.com/competitions/rsna-pneumonia-detection-challenge):** Chest X-ray images for pneumonia detection (26,684 images).
-* **[MedFMC](https://www.nature.com/articles/s41597-023-02460-0):** Chest X-ray images for thoracic abnormality classification (4,848 images).
-
----
 
 ## 🚀 Getting Started
 
@@ -61,6 +51,31 @@ conda create -n pathradx python=3.10 -y
 conda activate pathradx
 pip install -r requirements.txt
 ```
+
+---
+
+### Prepare Datasets
+We evaluated the PathRadX framework on three diverse radiology datasets:
+* **[MURA](https://stanfordmlgroup.github.io/competitions/mura/):** Musculoskeletal radiographs (40,005 images).
+* **[RSNA (RSNA Pneumonia)](https://www.kaggle.com/competitions/rsna-pneumonia-detection-challenge):** Chest X-ray images for pneumonia detection (26,684 images).
+* **[MedFMC](https://www.nature.com/articles/s41597-023-02460-0):** Chest X-ray images for thoracic abnormality classification (4,848 images).
+
+```bash
+# Example command for preparing dataset, especially MURA dataset.
+python ./data/prepare_datasets.py --dataset_name "MURA"
+```
+
+---
+
+### Prepare Pretrained Weights
+PathRadX framework utilizes frozen, pretrained model backbones (e.g., UNI, SAM-Med2D, etc.)
+Download pretrained weights for each model backbone and place it into ```model_weights/{model_name}```
+
+```bash
+scp -r {downloaded_model_weights} ./model_weights/{model_name}
+```
+
+---
 
 ### Training & Evaluation
 *(Add brief instructions on how to run your code, e.g., how to run CM + MIL or PC + SIL)*
@@ -134,7 +149,7 @@ If you find this code or our framework useful in your research, please consider 
 ```bibtex
 @inproceedings{yang2025pathradx,
   title={From Pathology to Radiology: Evaluating the Applicability of Pathology Foundation Models},
-  author={Yang, Hyun and Jung, Sumin and Kwak, Jin Tae},
+  author={H. Yang, S. Jung, and J. T. Kwak},
   booktitle={MICCAI},
   year={2025}
 }
