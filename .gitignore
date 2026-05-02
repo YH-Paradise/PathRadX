@@ -1,0 +1,35 @@
+CLAUDE.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Model weights
+model_weights/
+pretrained/
+assets/
+models/pretrain_model/
+models/pretrained/
+
+# Training outputs
+runs/
+Best_Models/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store

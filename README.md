@@ -68,21 +68,41 @@ python ./data/prepare_datasets.py --dataset_name "MURA"
 ---
 
 ### Prepare Pretrained Weights
-PathRadX framework utilizes frozen, pretrained model backbones (e.g., UNI, SAM-Med2D, etc.)
-Download pretrained weights for each model backbone and place it into ```model_weights/{model_name}```
+PathRadX uses frozen pretrained model backbones. Download each model's weights and place them in the corresponding `model_weights/{model_name}/` directory.
 
-```bash
-scp -r {downloaded_model_weights} ./model_weights/{model_name}
-```
+| Model | Download | Filename | Destination |
+|:------|:---------|:---------|:------------|
+| [UNI](https://huggingface.co/MahmoodLab/UNI) | HuggingFace (requires access request) | `pytorch_model.bin` | `model_weights/uni/` |
+| [SAM-Med2D](https://github.com/OpenGVLab/SAM-Med2D?tab=readme-ov-file#model-checkpoints) | GitHub Releases | `sam-med2d_b.pth` | `model_weights/sammed2d/` |
+| [MedCLIP](https://huggingface.co/flaviagiammarino/pubmed-clip-vit-base-patch32) | HuggingFace | `pytorch_model.bin` | `model_weights/medclip/` |
+| [BiomedCLIP](https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224) | Auto-downloaded via HuggingFace Hub | — | — |
+
+> **Note:** BiomedCLIP weights are downloaded automatically at runtime via `open_clip`. No manual download is required.
+
+After downloading, update `configs/datasets/rsna.yaml` with your local dataset path if using the RSNA dataset.
 
 ---
 
 ### Training & Evaluation
-*(Add brief instructions on how to run your code, e.g., how to run CM + MIL or PC + SIL)*
+
 ```bash
-# Example command for running PathRadX with Channel Manipulation and MIL
-python main.py --dataset mura --adaptation cm --classification mil
+# Train: UNI + Channel Manipulation + MIL (best configuration)
+python main.py --dataset mura --model uni --adaptation cm --classification mil
+
+# Train: UNI + Pseudo Coloring + SIL
+python main.py --dataset mura --model uni --adaptation pc --classification sil --epochs 50 --batch_size 64 --lr 0.001
+
+# Evaluate a trained model
+python evaluate.py --dataset mura --model uni --adaptation cm --classification mil --weight_path runs/uni_mura_cm_mil/20250101-000000/best_val_epoch049.pt
 ```
+
+**Arguments:**
+- `--dataset`: `mura` | `rsna` | `medfmc`
+- `--model`: `uni` | `medclip` | `sammed2d` | `biomedclip`
+- `--adaptation`: `cm` (Channel Manipulation) | `pc` (Pseudo Coloring)
+- `--classification`: `sil` (Single Instance Learning) | `mil` (Multiple Instance Learning)
+
+**W&B logging** (optional): set `WANDB_API_KEY` environment variable and pass `--wandb` flag.
 
 ---
 
@@ -91,6 +111,8 @@ python main.py --dataset mura --adaptation cm --classification mil
 We compared PathRadX against three radiology-specific foundation models: SAM-Med2D, MedCLIP, and BiomedCLIP.
 
 ### Accuracy
+*Table 1. Performance evaluation based on Accuracy.*
+
 | Models     |   MURA    | RSNA<sub>P</sub> | MedFMC<sub>C</sub> |
 |:-----------|:---------:|:----------------:|:------------------:|
 | UNI        | **0.773** |    **0.837**     |       0.730        |
@@ -98,9 +120,10 @@ We compared PathRadX against three radiology-specific foundation models: SAM-Med
 | MedCLIP    |   0.750   |      0.819       |     **0.763**      |
 | BiomedCLIP |   0.753   |      0.815       |       0.753        |
 
-*Table 1. Performance evaluation based on Accuracy.*
 
 ### F1
+*Table 2. Performance evaluation based on F1*
+
 | Models     |   MURA    | RSNA<sub>P</sub> | MedFMC<sub>C</sub> |
 |:-----------|:---------:|:----------------:|:------------------:|
 | UNI        | **0.777** |    **0.576**     |       0.812        |
@@ -108,9 +131,10 @@ We compared PathRadX against three radiology-specific foundation models: SAM-Med
 | MedCLIP    |   0.696   |      0.488       |       0.848        |
 | BiomedCLIP |   0.700   |      0.417       |       0.851        |
 
-*Table 2. Performance evaluation based on F1*
 
 ### AUC
+*Table 3. Performance evaluation based on AUC*
+
 | Models     |   MURA    | RSNA<sub>P</sub> | MedFMC<sub>C</sub> |
 |:-----------|:---------:|:----------------:|:------------------:|
 | UNI        | **0.861** |    **0.863**     |       0.768        |
@@ -118,7 +142,6 @@ We compared PathRadX against three radiology-specific foundation models: SAM-Med
 | MedCLIP    |   0.844   |      0.834       |     **0.784**      |
 | BiomedCLIP |   0.835   |      0.820       |       0.762        |
 
-*Table 3. Performance evaluation based on AUC*
 
 * Leveraging the UNI model with AB-MIL and channel-manipulation achieved the highest accuracy, F1 score, and AUC scores for the MURA and RSNAP datasets.
 * Overall, our proposed method demonstrated more balanced and reliable classification performance, particularly on highly imbalanced datasets.
@@ -132,6 +155,9 @@ We compared PathRadX against three radiology-specific foundation models: SAM-Med
 ---
 
 ## 🔬 Ablation Study
+*Table 4. A comparison of UNI’s performance on F1 score, using different strategies, single instance learning (SIL), multiple
+instance learning (MIL), channel manipulation (CM), and pseudo-coloring (PC).*
+
 | SIL | MIL | CM | PC |  MURA F1  | RSNA<sub>P</sub> F1 | MedFMC<sub>C</sub> F1 |
 |:---:|:---:|:--:|:--:|:---------:|:-------------------:|:---------------------:|
 |  ✓  |     | ✓  |    |   0.752   |        0.357        |         0.870         |
@@ -139,8 +165,6 @@ We compared PathRadX against three radiology-specific foundation models: SAM-Med
 |     |  ✓  | ✓  |    | **0.777** |      **0.576**      |         0.812         |
 |     |  ✓  |    | ✓  |   0.753   |        0.540        |         0.852         |
 
-*Table 4. A comparison of UNI’s performance on F1 score, using different strategies, single instance learning (SIL), multiple
-instance learning (MIL), channel manipulation (CM), and pseudo-coloring (PC).*
 
 ## 📝 Citation
 

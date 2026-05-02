@@ -1,0 +1,15 @@
+# Update image_root to your local dataset path
+csv_dir: csvs
+image_root: /data/rsna-pneumonia-detection-challenge/stage_2_train_images
+csv_files:
+  train: rsna_pneumo_trainset_split(1204).csv
+  val: rsna_pneumo_valset_split(1204).csv
+  test: rsna_pneumo_testset_split(1204).csv
+image_col: patient_id
+label_col: label
+mil:
+  resize_to: null
+  patch_size: 224
+  overlap:
+    default: 24
+    sammed2d: 0

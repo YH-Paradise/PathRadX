@@ -1,0 +1,5 @@
+# Download from: https://github.com/OpenGVLab/SAM-Med2D (Checkpoints section)
+# Place sam-med2d_b.pth at the path below
+weight_path: model_weights/sammed2d/sam-med2d_b.pth
+feature_dim: 1024
+input_size: 256

@@ -1,0 +1,4 @@
+# Loaded automatically from HuggingFace Hub — no manual download required
+hf_hub: microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224
+feature_dim: 512
+input_size: 224

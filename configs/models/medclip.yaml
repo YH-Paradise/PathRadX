@@ -1,0 +1,5 @@
+# Download from: https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224
+# (MedCLIP-ViT weights — place pytorch_model.bin at the path below)
+weight_path: model_weights/medclip/pytorch_model.bin
+feature_dim: 512
+input_size: 224

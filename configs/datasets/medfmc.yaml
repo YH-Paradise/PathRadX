@@ -1,0 +1,13 @@
+csv_dir: csvs
+csv_files:
+  train: MedFMC_chest_trainset_split(0211).csv
+  val: MedFMC_chest_valset_split(0211).csv
+  test: MedFMC_chest_testset_split(0211).csv
+image_col: img_dir
+label_col: label
+mil:
+  resize_to: 1024
+  patch_size: 224
+  overlap:
+    default: 24
+    sammed2d: 0
