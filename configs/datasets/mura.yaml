@@ -3,7 +3,6 @@ csv_files:
   train: MURA_train_data_label_per_img.csv
   val: MURA_val_data_label_per_img.csv
   test: MURA_test_data_label_per_img.csv
-image_col: data_path
 label_col: label
 mil:
   resize_to: 512

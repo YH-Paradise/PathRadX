@@ -61,8 +61,8 @@ class Trainer:
                 loss = self.loss_fn(logits.squeeze(1), y)
                 preds = (torch.sigmoid(logits.squeeze(1)) >= 0.5).int().cpu().numpy()
                 gts = y.int().cpu().numpy()
-                f1 = f1_score(gts, preds, average='macro', zero_division=0)
-                loss_meter.update(loss)
+                f1 = f1_score(gts, preds, average='binary', zero_division=0)
+                loss_meter.update(loss.detach())
                 f1_meter.update(f1)
         print(f'[Epoch {epoch+1}] Val F1: {f1_meter.avg:.6f}  Val Loss: {loss_meter.avg:.6f}')
         return f1_meter.avg, loss_meter.avg

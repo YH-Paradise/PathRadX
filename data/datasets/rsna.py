@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from pydicom import dcmread
 from .base import BaseRadiologyDataset
@@ -9,8 +10,8 @@ class RSNADataset(BaseRadiologyDataset):
         self.image_root = dataset_cfg['image_root']
 
     def _load_gray(self, idx):
-        patient_id = self.data['patient_id'][idx]
-        arr = dcmread(f'{self.image_root}/{patient_id}.dcm').pixel_array.astype(np.float32)
+        patient_id = os.path.basename(str(self.data['patient_id'][idx]))
+        arr = dcmread(os.path.join(self.image_root, f'{patient_id}.dcm')).pixel_array.astype(np.float32)
         denom = arr.max() - arr.min()
         arr = (arr - arr.min()) / (denom if denom > 0 else 1.0)
         return (arr * 255).astype(np.uint8)

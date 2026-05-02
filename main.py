@@ -71,9 +71,7 @@ def main():
     optimizer = torch.optim.Adam(
         filter(lambda p: p.requires_grad, model.parameters()), lr=args.lr
     )
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(
-        optimizer, max_lr=0.01, steps_per_epoch=10, epochs=10, anneal_strategy='cos'
-    )
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
 
     exp_name = f'{args.model}_{args.dataset}_{args.adaptation}_{args.classification}'
     timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')

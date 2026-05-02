@@ -5,7 +5,6 @@ csv_files:
   train: rsna_pneumo_trainset_split(1204).csv
   val: rsna_pneumo_valset_split(1204).csv
   test: rsna_pneumo_testset_split(1204).csv
-image_col: patient_id
 label_col: label
 mil:
   resize_to: null
