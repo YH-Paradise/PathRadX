@@ -60,10 +60,15 @@ We evaluated the PathRadX framework on three diverse radiology datasets:
 * **[RSNA (RSNA Pneumonia)](https://www.kaggle.com/competitions/rsna-pneumonia-detection-challenge):** Chest X-ray images for pneumonia detection (26,684 images).
 * **[MedFMC](https://www.nature.com/articles/s41597-023-02460-0):** Chest X-ray images for thoracic abnormality classification (4,848 images).
 
+Download each dataset and run the preparation script to generate train/val/test CSV splits:
+
 ```bash
-# Example command for preparing dataset, especially MURA dataset.
-python ./data/prepare_datasets.py --dataset_name "MURA"
+python data/prepare_datasets.py --dataset_name MURA   --dataset_dir /path/to/MURA-v1.1   --output_dir csvs
+python data/prepare_datasets.py --dataset_name RSNA   --dataset_dir /path/to/rsna-pneumonia-detection-challenge   --output_dir csvs
+python data/prepare_datasets.py --dataset_name MedFMC --dataset_dir /path/to/MedFMC   --output_dir csvs
 ```
+
+> **Note:** For the RSNA dataset, also update `image_root` in `configs/datasets/rsna.yaml` to point to the `stage_2_train_images/` directory.
 
 ---
 
