@@ -8,7 +8,7 @@ def get_backbone(model_name, model_cfg, device):
     if model_name == 'uni':
         return UNIBackbone(model_cfg['weight_path'], device)
     elif model_name == 'medclip':
-        return MedCLIPBackbone(model_cfg.get('weight_path'), device)
+        return MedCLIPBackbone(model_cfg['weight_path'], device)
     elif model_name == 'sammed2d':
         return SAMMed2DBackbone(model_cfg['weight_path'], device)
     elif model_name == 'biomedclip':

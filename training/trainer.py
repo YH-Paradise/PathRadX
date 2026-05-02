@@ -53,19 +53,20 @@ class Trainer:
         self.model.eval()
         self.model.to(self.device)
         loss_meter = AverageMeter()
-        f1_meter = AverageMeter()
+        all_preds, all_gts = [], []
+
         with torch.no_grad():
             for data in tqdm(loader, ascii=True):
                 x, y = data[0].to(self.device), data[1].to(self.device)
                 logits = self._forward(x)
                 loss = self.loss_fn(logits.squeeze(1), y)
-                preds = (torch.sigmoid(logits.squeeze(1)) >= 0.5).int().cpu().numpy()
-                gts = y.int().cpu().numpy()
-                f1 = f1_score(gts, preds, average='binary', zero_division=0)
                 loss_meter.update(loss.detach())
-                f1_meter.update(f1)
-        print(f'[Epoch {epoch+1}] Val F1: {f1_meter.avg:.6f}  Val Loss: {loss_meter.avg:.6f}')
-        return f1_meter.avg, loss_meter.avg
+                all_preds.extend((torch.sigmoid(logits.squeeze(1)) >= 0.5).int().cpu().numpy().tolist())
+                all_gts.extend(y.int().cpu().numpy().tolist())
+
+        val_f1 = f1_score(all_gts, all_preds, average='binary', zero_division=0)
+        print(f'[Epoch {epoch+1}] Val F1: {val_f1:.6f}  Val Loss: {loss_meter.avg:.6f}')
+        return val_f1, loss_meter.avg
 
     def fit(self, train_loader, val_loader, epochs):
         best_val_loss = float('inf')

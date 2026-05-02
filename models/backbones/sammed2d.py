@@ -18,7 +18,7 @@ class SAMMed2DBackbone(nn.Module):
             nn.Linear(256 * 64 * 64, 1024),
             nn.ReLU(),
             nn.Dropout(),
-        ).to(device)
+        )
 
     def freeze(self):
         for p in self.encoder.parameters():
